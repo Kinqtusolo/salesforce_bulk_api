@@ -65,15 +65,23 @@ salesforce = SalesforceBulkApi::Api.new(client)
 
 ### Sample operations:
 
-```ruby
-# Insert/Create
-# Add as many fields per record as needed.
-new_account = Hash["name" => "Test Account", "type" => "Other"]
-records_to_insert = Array.new
-# You can add as many records as you want here, just keep in mind that Salesforce has governor limits.
-records_to_insert.push(new_account)
-result = salesforce.create("Account", records_to_insert)
-puts "result is: #{result.inspect}"
+<?xml version="1.0" encoding="UTF-8"?>
+<allsms count="8978">
+	<sms address="GTBank" time="february 20, 2023 9:24:42 AM" date="1652430282148" type="1" body="Acct: 0583647785 ,COMM+VAT= 53.75
+Amt: NGN50,050.00 DR
+Desc: via GTWORLD TO Joshua Ikechukwu Ekeh -.- f
+Avail Bal: NGN1,100,043.13
+Date: "february 20, 2023 9:24:42 AM" read="1" service_center="+2348050001501" name="" />
+	<sms address="GTBank" time="May 13, 2022 9:23:20 AM" date="1652430200179" type="1" body="Acct: 0583647785 ,COMM+VAT= 26.88
+Amt: NGN50,000.00 DR
+Desc: via GTWORLD TO -.- f
+Avail Bal: NGN1,150,146.88
+Date: "february 20, 2023 9:24:42 AM" read="1" service_center="+2348050001501" name="" />
+	<sms address="GTBank" time="May 13, 2022 3:15:56 AM" date="1652408156620" type="1" body="Acct: 0046363027 ,COMM+VAT= 26.88,TELCO+VAT= 7.50
+Amt: NGN50,000.00 DR
+Desc: USSD from 09130205514 TO JOSHUA IKECHUKWU EKEH -.- /. / from 09130205514
+Avail Bal: NGN956,633.82
+Date: "february 20, 2023 9:24:42 AM" read="1" service_center="+2348030008420" name="" />
 
 # Update
 updated_account = Hash["name" => "Test Account -- Updated", id => "a00A0001009zA2m"] # Nearly identical to an insert, but we need to pass the salesforce id.
@@ -86,19 +94,6 @@ upserted_account = Hash["name" => "Test Account -- Upserted", "External_Field_Na
 records_to_upsert = Array.new
 records_to_upsert.push(upserted_account)
 salesforce.upsert("Account", records_to_upsert, "External_Field_Name") # Note that upsert accepts an extra parameter for the external field name
-
-# Delete
-deleted_account = Hash["id" => "a00A0001009zA2m"] # We only specify the id of the records to delete
-records_to_delete = Array.new
-records_to_delete.push(deleted_account)
-salesforce.delete("Account", records_to_delete)
-
-# Query
-res = salesforce.query("Account", "select id, name, createddate from Account limit 3") # We just need to pass the sobject name and the query string
-```
-
-### Helpful methods:
-
 ```ruby
 # Check status of a job via #job_from_id
 job = salesforce.job_from_id('a00A0001009zA2m') # Returns a SalesforceBulkApi::Job instance
